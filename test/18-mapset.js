@@ -1,30 +1,30 @@
 import test from 'ava';
 
-test.skip('ES6 has an efficient `Map` data type', t => {
+test('ES6 has an efficient `Map` data type', t => {
   let m = new Map([['foo', 'bar'], ['baz', 'qux']]);
   m.set('wibble', 'wobble');
 
   t.is(m.get('wibble'), 'wobble');
 
-  t.is(m.get('foo'), __)
+  t.is(m.get('foo'), 'bar');
 });
 
-test.skip('Maps are like Objects, but can use anything as a key', t => {
+test('Maps are like Objects, but can use anything as a key', t => {
   let o = {};
   o['42'] = 'Foo';
   o[42] = 'Bar';
 
   // What are these, and why?
-  t.is(o['42'], __);
-  t.is(o[42], __);
+  t.is(o['42'], 'Bar');
+  t.is(o[42], 'Bar');
 
   let m = new Map();
   m.set('42', 'Foo');
   m.set(42, 'Bar');
 
   // What are these, and why?
-  t.is(m.get('42'), __);
-  t.is(m.get(42), __);
+  t.is(m.get('42'), 'Foo');
+  t.is(m.get(42), 'Bar');
 
   // You can even use Objects as keys to Maps
   m.set(o, 'wow');
@@ -36,13 +36,13 @@ test.skip('Maps are like Objects, but can use anything as a key', t => {
   t.is(m.get(o), 'wow');
 });
 
-test.skip('Maps are iterable', t => {
+test('Maps are iterable', t => {
   let tlas = new Map();
   tlas.set('UMN', 'University of Minnesota');
   tlas.set('MWC', 'MinneWebCon');
   tlas.set('CSP', 'Content Security Policy');
 
-  for (let __ of tlas) { // <-- Fix this. Hint: Remember destructuring!
+  for (let [k, v] of tlas) { // <-- Fix this. Hint: Remember destructuring!
     t.is(k.length, 3);
     t.true(v.length > 3);
   }
@@ -50,22 +50,22 @@ test.skip('Maps are iterable', t => {
   // Refer to the docs at MDN to help you solve the next two...
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
 
-  let a = Array.from(__);
+  let a = Array.from(tlas.keys());
   t.deepEqual(a, ['UMN', 'MWC', 'CSP']);
 
-  let b = Array.from(__);
-  t.deepEqual(a, ['University of Minnesota',
+  let b = Array.from(tlas.values());
+  t.deepEqual(b, ['University of Minnesota',
                   'MinneWebCon',
                   'Content Security Policy']);
 });
 
-test.skip('ES6 also has Sets, which work similarly to Maps', t => {
+test('ES6 also has Sets, which work similarly to Maps', t => {
   let s = new Set([2,3,3,1,1,3,2,1,3]);
 
-  t.deepEqual(Array.from(s).sort(), ___);
+  t.deepEqual(Array.from(s).sort(), [1,2,3]);
 
   // You can test for set membership
-  t.true(s.has(__));
+  t.true(s.has(1));
 });
 
 // ============================================================================

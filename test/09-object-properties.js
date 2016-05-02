@@ -1,12 +1,12 @@
 import test from 'ava';
 
-test.skip('Review: Property access on objects', t => {
+test('Review: Property access on objects', t => {
   // Object properties can be any string
 
   let person = {
     'full name': 'Dan Callahan',
-    'twitter': '@callahad',
-  }
+    'twitter': '@callahad'
+  };
 
   // You can access properties with either `obj.prop` or `obj['prop']`.
   // You *must* use the `[string]` notation for keys with spaces, dashed, etc.
@@ -16,22 +16,22 @@ test.skip('Review: Property access on objects', t => {
 
   // You can also use variables with the `[string]` notation.
 
-  let key = __;
+  let key = 'twitter';
   t.is(person[key], '@callahad');
 
   // Or even evaluate expressions.
-  t.is(person['full' + ' ' + __], 'Dan Callahan');
+  t.is(person['full' + ' ' + 'name'], 'Dan Callahan');
 });
 
-test.skip('Objects gained `[]` syntax for generating key names', t => {
+test('Objects gained `[]` syntax for generating key names', t => {
   // Just like the example above, you can now use `[]` when defining keys.
 
-  let key = __; // <-- What does this need to be for the test to pass?
+  let key = 'Wow'; // <-- What does this need to be for the test to pass?
 
   let obj = {
     [key]: 'This Is Cool',
-    [key.__]: 'this is cool', // <-- You can still compute things inside `[]`...
-    [key.__]: 'THIS IS COOL',
+    [key.toLowerCase()]: 'this is cool', // <-- You can still compute things inside `[]`...
+    [key.toUpperCase()]: 'THIS IS COOL'
   };
 
   t.is(obj.Wow, 'This Is Cool');
@@ -39,7 +39,7 @@ test.skip('Objects gained `[]` syntax for generating key names', t => {
   t.is(obj.WOW, 'THIS IS COOL');
 });
 
-test.skip('Object property / values pairs have a new shorthand', t => {
+test('Object property / values pairs have a new shorthand', t => {
   // Ever caught yourself doing something like this?
 
   let name = 'Dan';
@@ -60,11 +60,11 @@ test.skip('Object property / values pairs have a new shorthand', t => {
 
   let appletown = { snack, drink }; // <-- Implies, e.g., `{ "snack": snack }`.
 
-  t.is(appletown.snack, __);
-  t.is(appletown["__"], 'apple juice');
+  t.is(appletown.snack, snack);
+  t.is(appletown['drink'], 'apple juice');
 });
 
-test.skip('Objects now have shorthand for declaring methods', t => {
+test('Objects now have shorthand for declaring methods', t => {
   // Named functions can be declared directly on objects, avoiding boilerplate.
 
   let utils = {
@@ -82,7 +82,7 @@ test.skip('Objects now have shorthand for declaring methods', t => {
 
   let guestbook = {
     guests: [],
-    sign: (name) => { this.guests.push(name) },
+    sign(name) { this.guests.push(name) },
   }
 
   try {

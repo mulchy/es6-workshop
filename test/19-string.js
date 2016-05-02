@@ -2,28 +2,28 @@ import test from 'ava';
 
 // These are all super handy, and hopefully obvious...
 
-test.skip('Strings now have `.startsWith`', t => {
+test('Strings now have `.startsWith`', t => {
   let s = 'Hello, world';
 
-  t.true(s.startsWith('__'));
+  t.true(s.startsWith('Hello'));
 });
 
-test.skip('Strings now have `.endsWith`', t => {
+test('Strings now have `.endsWith`', t => {
   let s = 'Hello, world';
 
-  t.true(s.endsWith('__'));
+  t.true(s.endsWith('world'));
 });
 
-test.skip('Strings now have `.includes`', t => {
+test('Strings now have `.includes`', t => {
   let s = 'Hello, world';
 
-  t.true(s.includes('__'));
+  t.true(s.includes(', '));
 });
 
-test.skip('Strings now have `.repeat`', t => {
+test('Strings now have `.repeat`', t => {
   let s = 'NA'.repeat(6) + ' BATMAN!';
 
-  t.is(s, __);
+  t.is(s, 'NANANANANANA BATMAN!');
 });
 
 // ============================================================================

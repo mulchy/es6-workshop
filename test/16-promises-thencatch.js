@@ -1,8 +1,8 @@
 import test from 'ava';
 
-test.skip('Use `.then` to receive values once the Promise settles', t => {
+test('Use `.then` to receive values once the Promise settles', t => {
   let p = Promise.resolve(12);
-  
+
   t.plan(1); // Checks that the expected test actually runs.
 
   // Exercise: Build a chain of 3 `.then(fn)` handlers off of `p`.
@@ -11,18 +11,21 @@ test.skip('Use `.then` to receive values once the Promise settles', t => {
   // - Third, use `t.is(__, 25)` to check if you got the expected value.
   // Note: Arrow functions will make this significantly more concise
 
-  return p.__
+  return p.then((x) => x * 2)
+          .then((x) => x + 1)
+          .then((x) => t.is(x, 25));
 });
 
-test.skip('Sometimes things go wrong. Use `.catch` to recover.', t => {
+test('Sometimes things go wrong. Use `.catch` to recover.', t => {
   t.plan(1);
 
   // Your task: Uncomment the rejection line, then make the test pass.
   return Promise.resolve(0b0001)
-    // .then(x => { throw 'boom' }) // <-- Simulate something breaking
+    .then(x => { throw 'boom' }) // <-- Simulate something breaking
     .then(x => x << 3)
     .then(x => { t.is(x, 0b1000); })
     // <-- Write a `.catch(fn)` handler here to recover.
+    .catch((e) => null)
     .then(() => { t.pass() } );
 
   // Things to observe:
@@ -31,23 +34,24 @@ test.skip('Sometimes things go wrong. Use `.catch` to recover.', t => {
   // 3. This acts a *lot* like a `try ... catch` block.
 });
 
-test.skip('`.catch` is just syntactic sugar', t => {
+test('`.catch` is just syntactic sugar', t => {
   t.plan(1);
 
   // `.then` actually takes two arguments: `resolveHandler` and `rejectHandler`.
   // If either isn't a function, it's skipped and the next one downstream runs.
-  
+
   // Your task: Fix the `.catch`, then replace it with an equivalent `.then`.
-  
+
   return Promise.resolve()
     .then(x => `Hello, ${x.toUpperCase()}!`) // <-- Oops! `x` is undefined!
-    .catch(() => 'Hello, world!') // Fall back to a default value.
+    //.catch(() => 'Hello, WORLD!') // Fall back to a default value.
+    .then(null, () => 'Hello, WORLD!')
     .then(x => t.is(x, 'Hello, WORLD!'));
 
   // SPOILER: This means `.catch(fn)` is identical to `.then(undefined, fn)`.
 });
 
-test.skip('Non-functions are ignored', t => {
+test('Non-functions are ignored', t => {
   t.plan(1);
   // If you pass a non-function to `.then`, it's ignored data flows through.
   // More specifically, passthrough functions are subbed in instead:
@@ -62,6 +66,10 @@ test.skip('Non-functions are ignored', t => {
   return Promise.resolve(42)
     .then(Date.now())
     // Your code here
+    .then('foo')
+    .then({})
+    .then([])
+    .then((x) =>  t.is(x, 42));
 });
 
 // ============================================================================

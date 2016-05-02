@@ -1,6 +1,6 @@
 import test from 'ava';
 
-test.skip('Things that can be iterated have a `Symbol.iterator` property', t => {
+test('Things that can be iterated have a `Symbol.iterator` property', t => {
   // Behind the scenes, `for of` looks for a property called `Symbol.iterator`:
 
   // Symbols are a new top-level data type.
@@ -34,18 +34,18 @@ test.skip('Things that can be iterated have a `Symbol.iterator` property', t => 
   // `for of` is also happy to take the generator function directly
 
   let bar = [];
-  for (let x of __) { // <-- Fill in the blank, using `Symbol.iterator` somehow.
+  for (let x of a[Symbol.iterator]()) { // <-- Fill in the blank, using `Symbol.iterator` somehow.
     bar.push(x);
   }
 
   t.deepEqual(bar, ['foo', 'bar', 'baz']);
 });
 
-test.skip('You can test if things are iterable', t => {
+test('You can test if things are iterable', t => {
   // Write a function that returns `true` if a parameter is iterable.
 
   function isIterable(x) {
-    // Write code here
+    return x[Symbol.iterator] !== undefined;
   }
 
   t.true(isIterable('hello'));
@@ -55,17 +55,17 @@ test.skip('You can test if things are iterable', t => {
   t.false(isIterable(42));
 });
 
-test.skip('The new `Array.from` method also consumes iterable', t => {
+test('The new `Array.from` method also consumes iterable', t => {
   // Guess what these will return...
 
   let x = Array.from('hello');
-  t.deepEqual(x, __);
+  t.deepEqual(x, ['h', 'e', 'l', 'l', 'o']);
 
   let y = Array.from(['alice', 'bob']);
-  t.deepEqual(y, __);
+  t.deepEqual(y, ['alice', 'bob']);
 
   let z = Array.from(Object.keys({ foo: 'bar' }));
-  t.deepEqual(z, __);
+  t.deepEqual(z, ['foo']);
 });
 
 // ============================================================================

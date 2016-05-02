@@ -6,7 +6,7 @@ test.beforeEach(t => {
   t.context.db = new PouchDB('mydb', { db: memdown });
 });
 
-test.cb.skip('Example: PouchDB works with callbacks', t => {
+test.cb('Example: PouchDB works with callbacks', t => {
   // Boilerplate for the test framework...
   t.plan(1);
   let fail = (err) => { t.fail(err); t.end(); };
@@ -88,7 +88,7 @@ test('...and it also works with Promises!', t => {
     .then(result => db.get(result.id))
     .then(doc => db.remove(doc))
     .then(deleted => pass(deleted.ok))
-    .catch(err => fail(err))
+    .catch(err => fail(err));
 });
 
 // ============================================================================

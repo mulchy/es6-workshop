@@ -1,13 +1,13 @@
 import test from 'ava';
 
-test.skip('Objects now have shorthand for property getters and setters', t => {
+test('Objects now have shorthand for property getters and setters', t => {
   // Getters/setters were in ES5, but the syntax was cumbersome. This is nice.
 
   let party = {
     n: 0,
     get size() { return `${this.n} People`; },
     set size(x) { this.n = x; }
-  }
+  };
 
   t.is(party.size, '0 People');
   party.size = 3;
@@ -20,9 +20,9 @@ test.skip('Objects now have shorthand for property getters and setters', t => {
   function create_person(inches) {
     return {
       actual: inches,
-
-      // Your methods go in here...
-    }
+      get height() { return this.actual > 72 ? this.actual : 72},
+      set height(x) {throw 'No cheating'}
+    };
   }
 
   let dan = create_person(71);

@@ -1,6 +1,6 @@
 import test from 'ava';
 
-test.skip('Review: prototypes as classes', t => {
+test('Review: prototypes as classes', t => {
   // JavaScript has always had prototypal inheritance, which looks like classes.
   function Greeter(who) {
     this.who = who;
@@ -19,16 +19,16 @@ test.skip('Review: prototypes as classes', t => {
 
   // Changing the prototype changes all of its instances
   // (They were all just referencing the value on the prototype...)
-  
+
   Greeter.prototype.hello = function() { return `Hi, ${this.who}`; };
 
-  t.is(world.hello(), __);
-  t.is(mwc.hello(), __);
+  t.is(world.hello(), 'Hi, world');
+  t.is(mwc.hello(), 'Hi, MinneWebCon');
 
   t.true(mwc instanceof Greeter);
 });
 
-test.skip('There is a new `class` definition syntax', t => {
+test('There is a new `class` definition syntax', t => {
   // All that `prototype` stuff is verbose and error-prone.
   // Thankfully, ES6 has new syntax!
 
@@ -38,13 +38,21 @@ test.skip('There is a new `class` definition syntax', t => {
     // Note: Don't use commas between method definitions.
     // Hint: Try using the object literal function shorthand we just learned!
     // Hint: Don't forget about getters and setters, too!
+    constructor(name, heroname, power) {
+      this.name = name;
+      this.heroname = heroname;
+      this.power = power;
+    }
+    desc() {return `${this.name}, A.K.A. "${this.alias.toUpperCase()}", has ${this.power}`};
+    set alias(a) {this.heroname = a.toUpperCase()};
+    get alias() {return this.heroname};
   }
 
   let hulk = new Superhero('Bruce Banner', 'The Hulk', 'superhuman strength');
   t.is(hulk.desc(), 'Bruce Banner, A.K.A. "THE HULK", has superhuman strength');
   t.is(hulk.alias, 'The Hulk');
 
-  let cap = new Superhero('Steve Rogers', 'Captain America', 'a neat shield');
+  let cap = new Superhero('Steve Rogers', 'Captain America', 'a neat sheild.');
   t.is(cap.desc(), 'Steve Rogers, A.K.A. "CAPTAIN AMERICA", has a neat sheild.');
 
   cap.alias = 'The Captain';
@@ -53,7 +61,7 @@ test.skip('There is a new `class` definition syntax', t => {
   t.is(cap.alias, 'THE CAPTAIN');
 });
 
-test.skip('Classes can have instance and static properties', t => {
+test('Classes can have instance and static properties', t => {
   class Num {
     constructor(x) {
       this.value = x;
@@ -62,6 +70,17 @@ test.skip('Classes can have instance and static properties', t => {
     isEven() { return this.value % 2 === 0; };
 
     static get PI() { return 3.14; };
+    static abs(x) { return x < 0 ? -x : x};
+    fizzbuzz() {
+      let ans = '';
+      if (this.value % 3 === 0 ) {
+        ans += 'Fizz';
+      }
+      if (this.value % 5 === 0) {
+        ans += 'Buzz';
+      }
+      return ans || this.value;
+    }
   }
 
   let one = new Num(1);
@@ -98,7 +117,7 @@ test.skip('Classes can have instance and static properties', t => {
   t.is(sixteen.fizzbuzz(), 16);
 });
 
-test.skip('Classes can extend other classes', t => {
+test('Classes can extend other classes', t => {
   class Rectangle {
     constructor(length, width, height) {
       this.length = length;
@@ -118,6 +137,32 @@ test.skip('Classes can extend other classes', t => {
     // Also: Define a set/get pair for 'sides`, which sets length/height/width.
     // Bonus: Guard against breakage by defining length/width/height setters
     //   Setting one should update all of them. Because it's a cube.
+    constructor(x) {
+      super(x,x,x);
+    }
+
+    set sides(x) {
+      this.length = x;
+      this.width = x;
+      this.height = x;
+    }
+
+    get sides() {
+      return this.length;
+    }
+
+    // 
+    // set length(x) {
+    //   this.sides = x;
+    // }
+    //
+    // set width(x) {
+    //   this.sides = x;
+    // }
+    //
+    // set height(x) {
+    //   this.sides = x;
+    // }
   }
 
   let rect = new Rectangle(2, 3, 4);
